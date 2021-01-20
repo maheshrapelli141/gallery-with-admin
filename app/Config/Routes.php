@@ -37,6 +37,8 @@ $routes->get('admin/logout', 'Users::logout');
 $routes->match(['get','post'],'admin/register', 'Users::register', ['filter' => 'noauth']);
 $routes->match(['get','post'],'admin/profile', 'Users::profile',['filter' => 'auth']);
 $routes->get('admin/dashboard', 'Dashboard::index',['filter' => 'auth']);
+$routes->match(['get','post'],'admin/category', 'Category::index',['filter' => 'auth']);
+$routes->get('admin/category/delete', 'Category::delete',['filter' => 'auth']);
 
 
 /**

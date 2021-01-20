@@ -2,9 +2,10 @@
 
 use CodeIgniter\Model;
 
-class CategoryModel extends Model
+class Category extends Model
 {
     protected $table = 'categories';
+    protected $allowedFields = ['name'];
 
     function getCategories(){
       return $this->findAll();

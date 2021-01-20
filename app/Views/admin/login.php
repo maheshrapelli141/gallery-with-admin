@@ -10,6 +10,7 @@
           </div>
         <?php endif; ?>
         <form class="" action="/" method="post">
+          <?= csrf_field() ?>
           <div class="form-group">
            <label for="email">Email address</label>
            <input type="text" class="form-control" name="email" id="email" value="<?= set_value('email') ?>">
