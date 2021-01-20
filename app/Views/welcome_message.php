@@ -49,7 +49,7 @@
 			border-radius: 5px;
 			color: rgba(0, 0, 0, .5);
 			display: block;
-			height: 44px;
+			height: 44px;	
 			text-decoration: none;
 		}
 		header li.menu-item a {
