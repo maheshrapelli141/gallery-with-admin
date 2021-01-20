@@ -39,9 +39,9 @@ class Users extends BaseController
 			}
 		}
 
-		echo view('templates/header', $data);
-		echo view('login');
-		echo view('templates/footer');
+		echo view('admin/templates/admin-header', $data);
+		echo view('admin/login');
+		echo view('admin/templates/admin-footer');
 	}
 
 	private function setUserSession($user){
@@ -85,9 +85,9 @@ class Users extends BaseController
 		}
 
 
-		echo view('templates/header', $data);
-		echo view('register');
-		echo view('templates/footer');
+		echo view('admin/templates/admin-header', $data);
+		echo view('admin/register');
+		echo view('admin/templates/admin-footer');
 	}
 
 	public function profile(){
@@ -127,9 +127,9 @@ class Users extends BaseController
 		}
 
 		$data['user'] = $model->where('id', session()->get('id'))->first();
-		echo view('templates/header', $data);
-		echo view('profile');
-		echo view('templates/footer');
+		echo view('admin/templates/admin-header', $data);
+		echo view('admin/profile');
+		echo view('admin/templates/admin-footer');
 	}
 
 	public function logout(){
