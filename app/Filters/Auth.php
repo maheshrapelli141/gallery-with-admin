@@ -10,7 +10,7 @@ class Auth implements FilterInterface
     {
         // Do something here
         if(!session()->get('isLoggedIn')){
-          return redirect()->to('/');
+          return redirect()->to('/admin');
         }
     }
 
