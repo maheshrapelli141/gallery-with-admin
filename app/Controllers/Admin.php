@@ -8,5 +8,8 @@ class Admin extends BaseController
 	}
 
 	//--------------------------------------------------------------------
-
+  public function login()
+  {
+    
+  }
 }

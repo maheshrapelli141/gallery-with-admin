@@ -2,23 +2,39 @@
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class User extends Model
 {
-    protected $table      = 'users';
-    protected $primaryKey = 'id';
+  
+  protected $table      = 'users';
+  protected $primaryKey = 'id';
+  protected $useSoftDeletes = true;
+  protected $skipValidation     = false;
+  protected $allowedFields = ['email', 'password', 'updated_at'];
+  protected $beforeInsert = ['beforeInsert'];
+  protected $beforeUpdate = ['beforeUpdate'];
 
-    protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+  function __construct()
+  {
+        parent::__construct();
+  }
 
-    protected $allowedFields = ['name', 'email'];
+  protected function beforeInsert(array $data){
+    $data = $this->passwordHash($data);
+    $data['data']['created_at'] = date('Y-m-d H:i:s');
 
-    protected $useTimestamps = false;
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    return $data;
+  }
 
-    protected $validationRules    = [];
-    protected $validationMessages = [];
-    protected $skipValidation     = false;
+  protected function beforeUpdate(array $data){
+    $data = $this->passwordHash($data);
+    $data['data']['updated_at'] = date('Y-m-d H:i:s');
+    return $data;
+  }
+
+  protected function passwordHash(array $data){
+    if(isset($data['data']['password']))
+      $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+
+    return $data;
+  }
 }
-?>
