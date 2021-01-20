@@ -5,7 +5,8 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
 
 class UsersCheck implements FilterInterface{
-    public function before(RequestInterface $request)
+  
+  public function before(RequestInterface $request, $arguments = null)
     {
         // Do something here
         // If segment 1 == users
@@ -24,7 +25,7 @@ class UsersCheck implements FilterInterface{
 
     //--------------------------------------------------------------------
 
-    public function after(RequestInterface $request, ResponseInterface $response)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         // Do something here
     }

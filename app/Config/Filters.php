@@ -11,14 +11,14 @@ class Filters extends BaseConfig
 		'toolbar'  => \CodeIgniter\Filters\DebugToolbar::class,
     'honeypot' => \CodeIgniter\Filters\Honeypot::class,
     'auth' => \App\Filters\Auth::class,
-		// 'noauth' => \App\Filters\Noauth::class,
+		'noauth' => \App\Filters\Noauth::class,
 		'userscheck' => \App\Filters\UsersCheck::class,
 	];
 
 	// Always applied before every request
 	public $globals = [
 		'before' => [
-      // 'userscheck'
+      'userscheck'
 			//'honeypot'
 			// 'csrf',
 		],

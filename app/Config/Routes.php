@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 // $routes->get('/admin', 'Admin::index');
 $routes->get('/', 'Users::index'/*, ['filter' => 'noauth']*/);
 $routes->get('logout', 'Users::logout');
-$routes->match(['get','post'],'register', 'Users::register'/*, ['filter' => 'noauth']*/);
+$routes->match(['get','post'],'register', 'Users::register', ['filter' => 'noauth']);
 $routes->match(['get','post'],'profile', 'Users::profile',['filter' => 'auth']);
 $routes->get('dashboard', 'Dashboard::index',['filter' => 'auth']);
 
