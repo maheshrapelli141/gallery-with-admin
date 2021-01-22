@@ -2,13 +2,21 @@
 
 use CodeIgniter\Model;
 
-class TopicModel extends Model
+class Topic extends Model
 {
     protected $table = 'topics';
+    protected $allowedFields = ['name','description','images'];
+    protected $useTimestamps = true;
+    
+    function getTopics(){
+      return $this->findAll();
+    }
 
-    function getTopicByCategory($categoryId){
-      return $this.findAll()
-        ->asArray()
-        ->where(['categoryId' => $categoryId]);
+    function getLatestTopic(){
+      return $this->builder()
+        ->orderBy('created_at','DESC')
+        ->limit(1)
+        ->get()
+        ->getResultArray();
     }
 }

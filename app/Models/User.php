@@ -9,6 +9,7 @@ class User extends Model
   protected $primaryKey = 'id';
   protected $useSoftDeletes = true;
   protected $skipValidation     = false;
+  protected $useTimestamps = true;
   protected $allowedFields = ['email', 'password', 'updated_at'];
   protected $beforeInsert = ['beforeInsert'];
   protected $beforeUpdate = ['beforeUpdate'];

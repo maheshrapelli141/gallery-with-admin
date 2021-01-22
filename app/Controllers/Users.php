@@ -75,7 +75,7 @@ class Users extends BaseController
 				$newData = [
 					'email' => $this->request->getVar('email'),
 					'password' => $this->request->getVar('password'),
-				];
+        ];
 				$model->save($newData);
 				$session = session();
 				$session->setFlashdata('success', 'Successful Registration');

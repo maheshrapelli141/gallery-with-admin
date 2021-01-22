@@ -31,6 +31,9 @@
           <li class="nav-item <?= ($uri->getSegment(2) == 'category' ? 'active' : null) ?>">
             <a class="nav-link" href="/admin/category">Category</a>
           </li>
+          <li class="nav-item <?= ($uri->getSegment(2) == 'topic' ? 'active' : null) ?>">
+            <a class="nav-link" href="/admin/topic">Topics</a>
+          </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
           <li class="nav-item">

@@ -24,10 +24,6 @@ class Topic extends Migration
         'type'           => 'VARCHAR',
         'constraint'     => '5000',
       ],
-      'category_id'          => [
-        'type'           => 'INT',
-        'unsigned'       => TRUE
-      ],
       'created_at'       => [
           'type'           => 'DATETIME',
           // 'default'        => 'current_timestamp()',
@@ -37,7 +33,6 @@ class Topic extends Migration
           // 'default'        => 'current_timestamp()',
       ]
       ]);
-    $this->forge->addForeignKey('category_id', 'categories','id');
     $this->forge->addKey('id', TRUE);
     $this->forge->createTable('topics');
 	}

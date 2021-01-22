@@ -32,13 +32,22 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 // $routes->get('/admin', 'Admin::index');
+
 $routes->get('admin', 'Users::index');
 $routes->get('admin/logout', 'Users::logout');
-$routes->match(['get','post'],'admin/register', 'Users::register', ['filter' => 'noauth']);
-$routes->match(['get','post'],'admin/profile', 'Users::profile',['filter' => 'auth']);
-$routes->get('admin/dashboard', 'Dashboard::index',['filter' => 'auth']);
-$routes->match(['get','post'],'admin/category', 'Category::index',['filter' => 'auth']);
-$routes->get('admin/category/delete', 'Category::delete',['filter' => 'auth']);
+$routes->match(['get','post'],'admin/register', 'Users::register');
+
+$routes->group('admin', ['filter' => 'auth'], function($routes)
+{
+  $routes->match(['get','post'],'profile', 'Users::profile');
+  $routes->get('dashboard', 'Dashboard::index');
+  $routes->match(['get','post'],'category', 'Category::index');
+  $routes->get('category/delete', 'Category::delete');
+  $routes->match(['get','post'],'topic', 'Topic::index');
+});
+
+
+
 
 
 /**
