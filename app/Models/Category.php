@@ -6,7 +6,7 @@ class Category extends Model
 {
     protected $table = 'categories';
     protected $allowedFields = ['name'];
-
+    protected $useSoftDeletes = true;
     protected $useTimestamps = true;
     
     function getCategories(){

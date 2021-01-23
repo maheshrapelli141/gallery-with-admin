@@ -94,16 +94,10 @@ class Topic extends BaseController
     }
 
     $model = new TopicModel();
+    //@TODO fetch topics with categories associated with them
     $data['topics'] = $model->getTopics();
     $categoryModel = new CategoryModel();
     $data['categories'] = $categoryModel->getCategories();
-
-    /**
-     * @TODO fetch topics with categories list to be added
-     */
-    $topicCategoriesModel = new TopicCategoriesModel();
-    $topicCategories = $topicCategoriesModel->getTopicsWithCategories();
-    // die(json_encode($topicCategories));
     
 		echo view('admin/templates/admin-header', $data);
 		echo view('admin/topic',$data);

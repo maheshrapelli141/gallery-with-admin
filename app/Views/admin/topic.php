@@ -26,8 +26,9 @@
                         </div>
                         <div class="form-group">
                           <label>Images</label>
-                          <input type="file" class="form-control" name="images[]" multiple>
+                          <input type="file" class="form-control" name="images[]" multiple id="uploadeImages">
                         </div>
+                        <div id="uploadImagesSection"></div>
                         <div class="form-group">
                           <label>Categories</label>
                           <select class="form-control" name="categories[]" multiple>
@@ -52,49 +53,87 @@
         </div>
     </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="topics-table">
         <thead>
             <th>Id</th>
             <th>Topic</th>
+            <th>Categories</th>
             <th>Actions</th>
         </thead>
-        <?php if(count($topics)) { ?>
-        <?php for($i=0;$i < count($topics);$i++) { ?>
-        <tr>
-            <td><?= $topics[$i]['id'] ?></td>
-            <td><?= $topics[$i]['name'] ?></td>
-            <td style="display:flex;">
-              <form action="/admin/topic/delete">
-                <?= csrf_field() ?>
-                <input type="hidden" name="id" value="<?= $topics[$i]['id'] ?>">
-                <button type="submit" class="btn btn-danger" onclick='if (confirm("Confirm Delete topic, this might loss all topics ?")) return true; else return false;'>
-                  <i class="fa fa-trash"></i>
-                </button>
-              </form> &nbsp;
-              <button type="button" class="btn btn-primary btn-edit" data-id="<?= $topics[$i]['id'] ?>" data-value="<?= $topics[$i]['name'] ?>">
-                  <i class="fa fa-edit"></i>
-                </button>
-            </td>
-        </tr>
-        <?php } ?>
-        <?php } else { ?>
-        <tr>
-            <td colspan='3'>No Topics Added yet</td>
-        </tr>
-        <?php } ?>
     </table>
 </div>
 
 <script>
-(async () => {
+(() => {
+  const topics = <?= json_encode($topics) ?>;
+  let topicTemplate = '';
+  if(topics.length){ 
+    const customTopicsData = {};
+    topics.map(topic => {
+      if(!customTopicsData[topic.id])
+        customTopicsData[topic.id] = topic;
+      else if(!customTopicsData[topic.id]['categories'])
+        customTopicsData[topic.id]['categories'] = customTopicsData[topic.id]['category'] + ', '+topic.category;
+      else
+        customTopicsData[topic.id]['categories'] = customTopicsData[topic.id]['categories']+ ', '+topic.category;
+    })
+    for(topicId in  customTopicsData){
+      topicTemplate += `<tr>
+          <td>${customTopicsData[topicId]['id']}</td>
+          <td>${customTopicsData[topicId]['topic_name']}</td>
+          <td>${customTopicsData[topicId]['categories']}</td>
+          <td style="display:flex;">
+            <form action="/admin/topic/delete">
+              <?= csrf_field() ?>
+              <input type="hidden" name="id" value="${customTopicsData[topicId]['id']}">
+              <button type="submit" class="btn btn-danger" onclick='if (confirm("Confirm Delete topic, this might loss all topics ?")) return true; else return false;'>
+                <i class="fa fa-trash"></i>
+              </button>
+            </form> &nbsp;
+            <button type="button" class="btn btn-primary btn-edit" data-id="${customTopicsData[topicId]['id']}" data-value="${customTopicsData[topicId]['topic_name']}">
+                <i class="fa fa-edit"></i>
+              </button>
+          </td>
+      </tr>`
+    }
+  }
+  else topicTemplate = `<tr><td colspan="4">No Topics added yet</td></tr>`
+
+  $('#topics-table').append(topicTemplate);
+})();
+
+(() => {
   $saveTopicForm = $('#saveTopicForm');
 
   $('.btn-edit').click((e) => {
     const topicId = e.currentTarget.dataset.id;
     const topicName = e.currentTarget.dataset.value;
-    console.log({topicId,topicName})
     $saveTopicForm.find('input[name=topic_id]').val(topicId);
     $saveTopicForm.find('input[name=topic]').val(topicName);
-  })
+  });
+})();
+
+(() => {
+  $('#uploadeImages').on('change',async e => {
+    const files = e.target.files;
+    const base64Promises = Object.values(files).map(toBase64);
+    (await Promise.all(base64Promises)).map(base64 => {
+      $('#uploadImagesSection').append(`<img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">`)
+    })
+  });
+  function toBase64(file) {
+    return new Promise((res,rej) => {
+      const reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        return res(reader.result);
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+  }
 })();
 </script>

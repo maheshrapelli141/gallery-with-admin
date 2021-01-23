@@ -23,6 +23,10 @@ class Category extends Migration
       'updated_at'       => [
           'type'           => 'DATETIME',
           // 'default'        => 'current_timestamp()',
+      ],
+      'deleted_at'       => [
+        'type'           => 'DATETIME',
+        // 'default'        => 'current_timestamp()',
       ]
       ]);
     $this->forge->addKey('id', TRUE);

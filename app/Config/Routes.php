@@ -31,7 +31,9 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-// $routes->get('/admin', 'Admin::index');
+$routes->get('/photos', 'Home::photos');
+$routes->get('/about', 'Home::about');
+$routes->get('/contact', 'Home::contact');
 
 $routes->get('admin', 'Users::index');
 $routes->get('admin/logout', 'Users::logout');
@@ -44,6 +46,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes)
   $routes->match(['get','post'],'category', 'Category::index');
   $routes->get('category/delete', 'Category::delete');
   $routes->match(['get','post'],'topic', 'Topic::index');
+  $routes->get('topic/delete', 'Topic::delete');
+
 });
 
 
