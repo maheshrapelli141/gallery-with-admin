@@ -27,4 +27,5 @@ class Topic extends Model
         ->get()
         ->getResultArray();
     }
+
 }

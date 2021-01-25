@@ -12,4 +12,17 @@ class TopicCategories extends Model
     function getTopicsWithCategories(){
       return $this->findAll();
     }
+
+    function checkExist($topicId,$categoryId){
+      $record = $this->builder()
+      ->orGroupStart()
+        ->where('topic_id', $topicId)
+        ->where('category_id', $categoryId)
+      ->groupEnd()
+      ->get()
+      ->getResult();
+
+      if(empty($record)) return false;
+      return true;
+    }
 }

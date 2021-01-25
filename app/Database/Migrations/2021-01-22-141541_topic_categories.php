@@ -15,6 +15,14 @@ class TopicCategories extends Migration
         'type'           => 'INT',
         'unsigned'       => TRUE,
       ],
+      'created_at'       => [
+        'type'           => 'DATETIME',
+        // 'default'        => 'current_timestamp()',
+      ],
+      'updated_at'       => [
+          'type'           => 'DATETIME',
+          // 'default'        => 'current_timestamp()',
+      ],
       'deleted_at'       => [
         'type'           => 'DATETIME',
         // 'default'        => 'current_timestamp()',
@@ -22,6 +30,7 @@ class TopicCategories extends Migration
     ]);
     $this->forge->addForeignKey('topic_id', 'topics','id');
     $this->forge->addForeignKey('category_id', 'categories','id');
+    $this->forge->addUniqueKey(['topic_id','category_id']);
     $this->forge->createTable('topic_categories');
 	}
 

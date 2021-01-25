@@ -27,11 +27,23 @@
                         <div class="form-group">
                           <label>Images</label>
                           <input type="file" class="form-control" name="images[]" multiple id="uploadeImages">
+                          <input type="hidden" name="imageUrls">
                         </div>
-                        <div id="uploadImagesSection"></div>
+                        <div class="card">
+                          <div class="card-body">
+                            <label>Current Selected Images</label>
+                            <div id="uploadImagesSection"></div>
+                          </div>
+                        </div><br>
+                        <div class="card">
+                          <div class="card-body">
+                            <label>Uploaded Images</label>
+                            <div id="uploadedImagesSection" style="display: flex;"></div>
+                          </div>
+                        </div>
                         <div class="form-group">
                           <label>Categories</label>
-                          <select class="form-control" name="categories[]" multiple>
+                          <select class="form-control" name="categories[]" multiple id="categories">
                             <option value="" disabled selected>Select one category</option>
                             <?php foreach($categories as $category) { ?>
                               <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
@@ -41,6 +53,13 @@
                         <?php if (isset($validation)): ?>
                           <div class="alert alert-danger" role="alert">
                               <?= $validation->listErrors() ?>
+                          </div>
+                        <?php endif; ?>
+                        <?php if (isset($errors) && count($errors)): ?>
+                          <div class="alert alert-danger" role="alert">
+                            <? foreach($errors as $error){
+                              echo $error;
+                               } ?>
                           </div>
                         <?php endif; ?>
                           <br>
@@ -64,14 +83,72 @@
 </div>
 
 <script>
+const topics = <?= json_encode($topics) ?>;
+const categories = <?= json_encode($categories) ?>;
+
+$saveTopicForm = $('#saveTopicForm');
+
+let selectedTopicImages = null;
+
+function removeImageByIndex(index){
+  
+  selectedTopicImages = selectedTopicImages.toString().split(',')
+  selectedTopicImages.splice(Number(index),1)
+  if(selectedTopicImages.length)
+    selectedTopicImages = selectedTopicImages.join(',');
+  selectedTopicImages = null;
+  renderUrlBasedImages();
+}
+
+function renderUrlBasedImages(){
+  $saveTopicForm.find('input[name=imageUrls]').val(selectedTopicImages);
+  $('#uploadedImagesSection').empty();
+  selectedTopicImages.toString().split(',').map((imageUrl,i) =>{
+      $('#uploadedImagesSection').append(`
+      <div style="position:relative">
+        <button type="button" class="btn btn-link btn-right btn-remove-image" style="position: absolute;top:0;right:0;" data-id="${i}">&times;</button>
+        <img src="${imageUrl}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+        </div>
+      `)
+    })
+}
+
 (() => {
-  const topics = <?= json_encode($topics) ?>;
+  $('body').on('click','.btn-edit',e => {
+    const topicId = $(e.currentTarget).attr('data-id');
+    const selectedTopic = topics.find(topic => topic.id === topicId);
+    console.log({selectedTopic});
+    $saveTopicForm.find('input[name=topic_id]').val(topicId);
+    $saveTopicForm.find('input[name=name]').val(selectedTopic.topic_name);
+    $saveTopicForm.find('textarea[name=description]').val(selectedTopic.description);
+
+    const selectedCategoryIds = selectedTopic.categories.split(',').map(selectedCategory => {
+      return categories.find(category => category.name === selectedCategory.trim()).id;
+    });
+    $.each(selectedCategoryIds, function(i,e){
+      $("#categories option[value='" + e + "']").prop("selected", true);
+    });
+
+    selectedTopicImages = selectedTopic.images;
+    $('#uploadedImagesSection').empty();
+    renderUrlBasedImages();
+  });
+
+  $('body').on('click','.btn-remove-image',e => {
+    const imageIndex = $(e.currentTarget).attr('data-id');
+    removeImageByIndex(imageIndex);
+  });
+})();
+
+(() => {
   let topicTemplate = '';
   if(topics.length){ 
     const customTopicsData = {};
     topics.map(topic => {
-      if(!customTopicsData[topic.id])
+      if(!customTopicsData[topic.id]){
         customTopicsData[topic.id] = topic;
+        customTopicsData[topic.id]['categories'] = topic.category;
+      }
       else if(!customTopicsData[topic.id]['categories'])
         customTopicsData[topic.id]['categories'] = customTopicsData[topic.id]['category'] + ', '+topic.category;
       else
@@ -103,22 +180,14 @@
 })();
 
 (() => {
-  $saveTopicForm = $('#saveTopicForm');
-
-  $('.btn-edit').click((e) => {
-    const topicId = e.currentTarget.dataset.id;
-    const topicName = e.currentTarget.dataset.value;
-    $saveTopicForm.find('input[name=topic_id]').val(topicId);
-    $saveTopicForm.find('input[name=topic]').val(topicName);
-  });
-})();
-
-(() => {
   $('#uploadeImages').on('change',async e => {
     const files = e.target.files;
     const base64Promises = Object.values(files).map(toBase64);
+    // $('#uploadImagesSection').empty();
     (await Promise.all(base64Promises)).map(base64 => {
-      $('#uploadImagesSection').append(`<img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">`)
+      $('#uploadImagesSection').append(`
+        <img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+      `);
     })
   });
   function toBase64(file) {

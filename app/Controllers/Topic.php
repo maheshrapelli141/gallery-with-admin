@@ -16,20 +16,23 @@ class Topic extends BaseController
 				'name' => 'required|min_length[2]|max_length[50]',
         'description' => 'required|min_length[2]|max_length[1500]',
         'categories' => 'required',
-        'images' => 'uploaded[images]|max_size[images,5000]|ext_in[images,jpg,jpeg,png],'
       ];
-      
+
+      $files = $this->request->getFiles();
+
+      $images = NULL;
+      // Count total files
+      if(!$this->request->getVar('imageUrls') || empty($files['images']))
+        $rules['images'] = 'uploaded[images]|max_size[images,5000]|ext_in[images,jpg,jpeg,png],';
+      else $images = $this->request->getVar('imageUrls');
 
 			$errors = [];
       
-      if (! $this->validate($rules, $errors)) {
+      if (!$this->validate($rules, $errors)) {
 				$data['validation'] = $this->validator;
 			}else{
         $fileUploads = array();
 
-        // Count total files
-        $files = $this->request->getFiles();
-        
         // Looping all files
         if($imagefile = $files){
           foreach($imagefile['images'] as $img)
@@ -41,20 +44,29 @@ class Topic extends BaseController
                   $filepath = base_url()."/uploads/".$newName;
                   array_push($fileUploads,$filepath);
               } else {
-                  throw new RuntimeException($file->getErrorString().'('.$file->getError().')');
+                  $data['errors'] = $img->getErrorString();
+                  // throw new \RuntimeException($img->getErrorString().'('.$img->getError().')');
               }
           }
+          if(!$images)
+            $images = implode(',',$fileUploads);
+          else $images = $images.','.implode(',',$fileUploads);
+          $images = trim($images,',');
+          $images = trim($images,'');
+          
+          if(strlen($images) === 0)
+            $images = NULL;
         }
 
         $db = db_connect();
-
         $db->transBegin();
 
         $model = new TopicModel();
+
         $newData = [
           'name' => $this->request->getVar('name'),
           'description' => $this->request->getVar('description'),
-          'images' => implode(',',$fileUploads)
+          'images' => $images
         ];
 
         $topic_id = $this->request->getVar('topic_id');
@@ -67,18 +79,24 @@ class Topic extends BaseController
           $topic_id = $result['id'];
         }
 
+        $selectedCategories = array_unique($this->request->getVar('categories'));
+        
         $topic_categories = [];
+
         foreach($this->request->getVar('categories') as $categoryId){
-          array_push($topic_categories, [
-            'topic_id' => $topic_id,
-            'category_id' => $categoryId
-          ]);
+          $topicCategoriesModel = new TopicCategoriesModel();
+          $isExists = $topicCategoriesModel->checkExist($topic_id,$categoryId);
+          if(!$isExists){
+            $topicCategoriesModel
+              ->builder()
+              ->insert([
+                'topic_id' => $topic_id,
+                'category_id' => $categoryId
+              ]);
+          }
         }
 
-        $topicCategoriesModel = new TopicCategoriesModel();
-        $topicCategoriesModel
-          ->builder()
-          ->insertBatch($topic_categories);
+        
 
         if ($db->transStatus() === FALSE)
         {
@@ -91,6 +109,7 @@ class Topic extends BaseController
           $session->setFlashdata('success', 'Topic Saved Successfully');
         }
       }
+      $data['errors'] = $errors;
     }
 
     $model = new TopicModel();
