@@ -14,7 +14,7 @@ class Topic extends Migration
       ],
       'name'       => [
         'type'           => 'VARCHAR',
-        'constraint'     => '50',
+        'constraint'     => '500',
         ],
       'description'       => [
         'type'           => 'VARCHAR',
@@ -22,7 +22,11 @@ class Topic extends Migration
       ],
       'images' => [
         'type'           => 'VARCHAR',
-        'constraint'     => '5000',
+        'constraint'     => '5000'
+      ],
+      'categories' => [
+        'type'           => 'VARCHAR',
+        'constraint'     => '5000'
       ],
       'created_at'       => [
           'type'           => 'DATETIME',

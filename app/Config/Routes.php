@@ -35,6 +35,12 @@ $routes->get('/photos', 'Home::photos');
 $routes->get('/about', 'Home::about');
 $routes->get('/contact', 'Home::contact');
 
+$routes->group('api', function($routes)
+{
+  $routes->get('category', 'Category::getCategories');
+  $routes->get('topic/(:num)', 'Topic::getByCategoryId/$1');
+});
+
 $routes->get('admin', 'Users::index');
 $routes->get('admin/logout', 'Users::logout');
 $routes->match(['get','post'],'admin/register', 'Users::register');

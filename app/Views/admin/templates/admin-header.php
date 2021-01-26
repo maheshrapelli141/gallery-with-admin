@@ -27,14 +27,14 @@
           <li class="nav-item <?= ($uri->getSegment(2) == 'dashboard' ? 'active' : null) ?>">
             <a class="nav-link"  href="/admin/dashboard">Dashboard</a>
           </li>
-          <li class="nav-item <?= ($uri->getSegment(2) == 'profile' ? 'active' : null) ?>">
-            <a class="nav-link" href="/admin/profile">Profile</a>
-          </li>
           <li class="nav-item <?= ($uri->getSegment(2) == 'category' ? 'active' : null) ?>">
             <a class="nav-link" href="/admin/category">Category</a>
           </li>
           <li class="nav-item <?= ($uri->getSegment(2) == 'topic' ? 'active' : null) ?>">
             <a class="nav-link" href="/admin/topic">Topics</a>
+          </li>
+          <li class="nav-item <?= ($uri->getSegment(2) == 'profile' ? 'active' : null) ?>">
+            <a class="nav-link" href="/admin/profile">Profile</a>
           </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">

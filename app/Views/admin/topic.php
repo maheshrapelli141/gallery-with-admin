@@ -119,11 +119,14 @@ function renderUrlBasedImages(){
     const selectedTopic = topics.find(topic => topic.id === topicId);
     console.log({selectedTopic});
     $saveTopicForm.find('input[name=topic_id]').val(topicId);
-    $saveTopicForm.find('input[name=name]').val(selectedTopic.topic_name);
+    $saveTopicForm.find('input[name=name]').val(selectedTopic.name);
     $saveTopicForm.find('textarea[name=description]').val(selectedTopic.description);
 
-    const selectedCategoryIds = selectedTopic.categories.split(',').map(selectedCategory => {
-      return categories.find(category => category.name === selectedCategory.trim()).id;
+    const selectedCategoryIds = selectedTopic.categories.map(selectedCategory => {
+      return categories.find(category => category.id === selectedCategory.id.trim()).id;
+    });
+    $.each(categories, function(i,e){
+      $("#categories option[value='" + e.id + "']").prop("selected", false);
     });
     $.each(selectedCategoryIds, function(i,e){
       $("#categories option[value='" + e + "']").prop("selected", true);
@@ -143,31 +146,20 @@ function renderUrlBasedImages(){
 (() => {
   let topicTemplate = '';
   if(topics.length){ 
-    const customTopicsData = {};
-    topics.map(topic => {
-      if(!customTopicsData[topic.id]){
-        customTopicsData[topic.id] = topic;
-        customTopicsData[topic.id]['categories'] = topic.category;
-      }
-      else if(!customTopicsData[topic.id]['categories'])
-        customTopicsData[topic.id]['categories'] = customTopicsData[topic.id]['category'] + ', '+topic.category;
-      else
-        customTopicsData[topic.id]['categories'] = customTopicsData[topic.id]['categories']+ ', '+topic.category;
-    })
-    for(topicId in  customTopicsData){
+    for(topic of  topics){
       topicTemplate += `<tr>
-          <td>${customTopicsData[topicId]['id']}</td>
-          <td>${customTopicsData[topicId]['topic_name']}</td>
-          <td>${customTopicsData[topicId]['categories']}</td>
+          <td>${topic['id']}</td>
+          <td>${topic['name']}</td>
+          <td>${topic['categories'].map(category => category.name).join(',')}</td>
           <td style="display:flex;">
             <form action="/admin/topic/delete">
               <?= csrf_field() ?>
-              <input type="hidden" name="id" value="${customTopicsData[topicId]['id']}">
+              <input type="hidden" name="id" value="${topic['id']}">
               <button type="submit" class="btn btn-danger" onclick='if (confirm("Confirm Delete topic, this might loss all topics ?")) return true; else return false;'>
                 <i class="fa fa-trash"></i>
               </button>
             </form> &nbsp;
-            <button type="button" class="btn btn-primary btn-edit" data-id="${customTopicsData[topicId]['id']}" data-value="${customTopicsData[topicId]['topic_name']}">
+            <button type="button" class="btn btn-primary btn-edit" data-id="${topic['id']}" data-value="${topic['name']}">
                 <i class="fa fa-edit"></i>
               </button>
           </td>

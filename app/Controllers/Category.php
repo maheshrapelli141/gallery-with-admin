@@ -1,9 +1,13 @@
 <?php namespace App\Controllers;
 
+use CodeIgniter\API\ResponseTrait;
+
 use App\Models\Category as CategoryModel;
 
 class Category extends BaseController
 {
+  use ResponseTrait;
+
 	public function index()
 	{
     $data = [];
@@ -46,5 +50,15 @@ class Category extends BaseController
     $model->delete($this->request->getVar('id'));
     
     return redirect()->to('/admin/category');
+  }
+
+  function getCategories(){
+    $model = new CategoryModel();
+    $data = $model->getCategories();
+    return $this->respond([
+      'message' => 'Categories fetch successfully',
+      'status' => true,
+      'data' => $data
+    ], 200);
   }
 }

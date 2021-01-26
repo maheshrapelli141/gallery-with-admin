@@ -5,19 +5,12 @@ use CodeIgniter\Model;
 class Topic extends Model
 {
     protected $table = 'topics';
-    protected $allowedFields = ['name','description','images'];
+    protected $allowedFields = ['name','description','images','categories'];
     protected $useTimestamps = true;
     protected $useSoftDeletes = true;
     
     function getTopics(){
-      return $this->builder()
-        ->select('topics.id,topics.name as "topic_name",topics.description,topics.images,c.name as "category"')
-        ->where('topics.deleted_at',NULL)
-        ->from('topic_categories tc')
-        ->join('topics t','t.id = tc.topic_id')
-        ->join('categories c','c.id = tc.category_id ')
-        ->get()
-        ->getResult();
+      return $this->findAll();
     }
 
     function getLatestTopic(){
@@ -28,4 +21,7 @@ class Topic extends Model
         ->getResultArray();
     }
 
+    function getByCategoryId($categoryId){
+      return $this->query('SELECT * FROM topics WHERE FIND_IN_SET('.$categoryId.',categories)')->getResult();
+    }
 }

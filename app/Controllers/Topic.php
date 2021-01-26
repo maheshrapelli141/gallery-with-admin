@@ -1,11 +1,15 @@
 <?php namespace App\Controllers;
 
+use CodeIgniter\API\ResponseTrait;
+
 use App\Models\Topic as TopicModel;
 use App\Models\Category as CategoryModel;
 use App\Models\TopicCategories as TopicCategoriesModel;
 
 class Topic extends BaseController
 {
+  use ResponseTrait;
+
 	public function index()
 	{
     $data = [];
@@ -66,37 +70,25 @@ class Topic extends BaseController
         $newData = [
           'name' => $this->request->getVar('name'),
           'description' => $this->request->getVar('description'),
+          'categories' => implode(',',$this->request->getVar('categories')),
           'images' => $images
         ];
-
+        
         $topic_id = $this->request->getVar('topic_id');
 
         if($topic_id)
           $model->update($topic_id,$newData);
         else {
+          die(json_encode($newData));
           $model->save($newData);
           $result = ($model->getLatestTopic())[0];
+          die(json_encode($result));
           $topic_id = $result['id'];
         }
 
         $selectedCategories = array_unique($this->request->getVar('categories'));
         
         $topic_categories = [];
-
-        foreach($this->request->getVar('categories') as $categoryId){
-          $topicCategoriesModel = new TopicCategoriesModel();
-          $isExists = $topicCategoriesModel->checkExist($topic_id,$categoryId);
-          if(!$isExists){
-            $topicCategoriesModel
-              ->builder()
-              ->insert([
-                'topic_id' => $topic_id,
-                'category_id' => $categoryId
-              ]);
-          }
-        }
-
-        
 
         if ($db->transStatus() === FALSE)
         {
@@ -113,9 +105,19 @@ class Topic extends BaseController
     }
 
     $model = new TopicModel();
-    //@TODO fetch topics with categories associated with them
     $data['topics'] = $model->getTopics();
+
     $categoryModel = new CategoryModel();
+    for($i=0;$i< count($data['topics']);$i++){
+      $topic = $data['topics'][$i];
+      $categoriesList = [];
+      $categoryIds = str_getcsv($topic['categories']);
+      foreach($categoryIds as $categoryId){
+        array_push($categoriesList,$categoryModel->getById($categoryId));
+      }
+      $data['topics'][$i]['categories'] = $categoriesList;
+    }
+    
     $data['categories'] = $categoryModel->getCategories();
     
 		echo view('admin/templates/admin-header', $data);
@@ -130,5 +132,16 @@ class Topic extends BaseController
     $model->delete($this->request->getVar('id'));
     
     return redirect()->to('/admin/topic');
+  }
+
+  function getByCategoryId($categoryId){
+    $model = new TopicModel();
+    $topics = $model->getByCategoryId($categoryId);
+    $data = [
+      'data' => $topics,
+      'message' => 'Success'
+    ];
+    return $this->respond($data, 200);
+    // die($categoryId);
   }
 }

@@ -12,4 +12,8 @@ class Category extends Model
     function getCategories(){
       return $this->findAll();
     }
+
+    function getById($categoryId){
+      return $this->find($categoryId);
+    }
 }

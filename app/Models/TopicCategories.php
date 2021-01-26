@@ -9,6 +9,14 @@ class TopicCategories extends Model
     protected $useTimestamps = true;
     protected $useSoftDeletes = true;
 
+    function getAllByTopicId($topicId){
+      return $this->builder()
+        ->where('topic_id',$topicId)
+        ->join('categories','topic_categories.category_id = categories.id')
+        ->get()
+        ->getResult();
+    }
+
     function getTopicsWithCategories(){
       return $this->findAll();
     }
