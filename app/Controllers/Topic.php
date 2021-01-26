@@ -79,10 +79,9 @@ class Topic extends BaseController
         if($topic_id)
           $model->update($topic_id,$newData);
         else {
-          die(json_encode($newData));
+          
           $model->save($newData);
           $result = ($model->getLatestTopic())[0];
-          die(json_encode($result));
           $topic_id = $result['id'];
         }
 

@@ -63,6 +63,10 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
+	<!-- jQuery -->
+	<script src="/assets/js/jquery.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.min.js'></script>
+
 	</head>
 	<body>
   <?php
@@ -72,11 +76,11 @@
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
 		<aside id="fh5co-aside" role="complementary" class="border js-fullheight">
 
-			<h1 id="fh5co-logo"><a href=""><img src="assets/images/logo-colored.png" alt="Free HTML5 Bootstrap Website Template"></a></h1>
+			<h1 id="fh5co-logo"><a href=""><img src="/assets/images/logo-colored.png" alt="Free HTML5 Bootstrap Website Template"></a></h1>
 			<nav id="fh5co-main-menu" role="navigation">
 				<ul>
 					<li <?= ($uri->getSegment(1) == '' ? 'class="fh5co-active"' : null) ?>><a href="/">Home</a></li>
-					<li <?= ($uri->getSegment(1) == 'photos' ? 'class="fh5co-active"' : null) ?>><a href="photos">Photos</a></li>
+					<!-- <li <?= ($uri->getSegment(1) == 'photos' ? 'class="fh5co-active"' : null) ?>><a href="photos">Photos</a></li> -->
 					<li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="about">About</a></li>
 					<li <?= ($uri->getSegment(1) == 'contact' ? 'class="fh5co-active"' : null) ?>><a href="contact">Contact</a></li>
 				</ul>

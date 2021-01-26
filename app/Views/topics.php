@@ -1,9 +1,8 @@
-
+<h1>Testing </h1>
 		<div id="fh5co-main">
-
-			<div class="fh5co-gallery">
-
-				<a class="gallery-item" href="single.html">
+			<div class="fh5co-gallery" id="topics-gallery">
+       
+				<!-- <a class="gallery-item" href="single.html">
 					<img src="assets/images/work_1.jpg" alt="Free HTML5 Bootstrap Template by FreeHTML5.co">
 					<span class="overlay">
 						<h2>Nature</h2>
@@ -116,7 +115,7 @@
 						<h2>Animals 2</h2>
 						<span>22 Photos</span>
 					</span>
-				</a>
+				</a> -->
 			</div>
 		
 
@@ -137,3 +136,27 @@
 
 		</div>
 	
+<script>
+  (() => {
+    const topics = <?=json_encode($topics) ?>;
+    console.log({topics});
+    $topicsGallery = $('#topics-gallery');
+
+    let template = '';
+    if(topics.length){
+      template = topics.map(topic => {
+        const images = topic.images.split(',');
+        return` <a class="gallery-item" href="/single/${topic.id}">
+					<img src="${images[0]}" alt="${topic.name}">
+					<span class="overlay">
+						<h2>${topic.name}</h2>
+						<span>${images.length} Photos</span>
+					</span>
+				</a>
+      `});
+    } else {
+      template = 'No Topics';
+    }
+    $topicsGallery.append(template);
+  })();
+</script>

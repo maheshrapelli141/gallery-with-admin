@@ -1,5 +1,7 @@
 <?php namespace App\Controllers;
 
+use App\Models\Topic;
+
 class Home extends BaseController
 {
 	public function index()
@@ -11,12 +13,30 @@ class Home extends BaseController
 		echo view('footer');
   }
   
-  public function photos()
+  public function topics($categoryId)
 	{
-    $data  = [];
+    $topicModel = new Topic();
+    $topics = $topicModel->getByCategoryId($categoryId);
+    $data  = [
+      'categoryId' => $categoryId,
+      'topics' => $topics
+    ];
 
     echo view('header', $data);
-		echo view('photos');
+		echo view('topics', $data);
+		echo view('footer');
+  }
+
+  public function single($topicId)
+	{
+    $topicModel = new Topic();
+    $topic = $topicModel->find($topicId);
+    $data  = [
+      'topic' => $topic
+    ];
+
+    echo view('header', $data);
+		echo view('single', $data);
 		echo view('footer');
   }
   

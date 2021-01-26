@@ -319,8 +319,8 @@ figure figcaption {
   z-index: 11;
   vertical-align: middle;
   padding-top: 30%;
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
+  opacity: 1;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;

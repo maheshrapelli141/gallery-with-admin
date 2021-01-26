@@ -54,9 +54,9 @@ class Category extends BaseController
 
   function getCategories(){
     $model = new CategoryModel();
-    $data = $model->getCategories();
+    $data = $model->getCategoriesWithTopicsCount();
     return $this->respond([
-      'message' => 'Categories fetch successfully',
+      'message' => 'Categories fetched successfully',
       'status' => true,
       'data' => $data
     ], 200);

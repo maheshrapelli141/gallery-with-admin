@@ -24,4 +24,5 @@ class Topic extends Model
     function getByCategoryId($categoryId){
       return $this->query('SELECT * FROM topics WHERE FIND_IN_SET('.$categoryId.',categories)')->getResult();
     }
+
 }
