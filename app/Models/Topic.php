@@ -25,4 +25,9 @@ class Topic extends Model
       return $this->query('SELECT * FROM topics WHERE FIND_IN_SET('.$categoryId.',categories)')->getResult();
     }
 
+
+    function getTotalCount(){
+      return $this->builder()->countAllResults();
+    }
+
 }

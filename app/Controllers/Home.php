@@ -3,12 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\Topic;
+use App\Models\Counter;
 
 class Home extends BaseController
 {
   public function index()
   {
     $data  = [];
+
+    $topicModel = new Topic();
+    $data['totalTopics'] = $topicModel->getTotalCount();
+    $counterModel = new Counter();
+    $data['totalVisits'] = $counterModel->increaseCount();
 
     echo view('header', $data);
     echo view('welcome_message');

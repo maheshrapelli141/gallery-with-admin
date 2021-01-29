@@ -62,23 +62,25 @@
 				<div class="fh5co-narrow-content">
 					<div class="owl-carousel-fullwidth animate-box" data-animate-effect="fadeInLeft">
 		            <div class="item">
-		            	<figure>
+		            	<!-- <figure>
 		            		<img src="/assets/images/testimonial_person2.jpg" alt="Free HTML5 Bootstrap Template">
-		            	</figure>
-		              	<p class="text-center quote">&ldquo;Design must be functional and functionality must be translated into visual aesthetics, without any reliance on gimmicks that have to be explained. &rdquo; <cite class="author">&mdash; Ferdinand A. Porsche</cite></p>
+		            	</figure> -->
+		              	<p class="text-center quote">&ldquo;The one stop ,prop shop &rdquo; <cite class="author">&mdash; Jeet Props</cite></p>
 		            </div>
 		            <div class="item">
-		            	<figure>
+		            	<!-- <figure>
 		            		<img src="/assets/images/testimonial_person3.jpg" alt="Free HTML5 Bootstrap Template">
-		            	</figure>
-		              	<p class="text-center quote">&ldquo;Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn’t really do it, they just saw something. It seemed obvious to them after a while. &rdquo;<cite class="author">&mdash; Steve Jobs</cite></p>
+		            	</figure> -->
+		              	<p class="text-center quote">&ldquo;Setup for films, television,Ad's, events, wedding and many more. &rdquo;
+                    <!-- <cite class="author">&mdash; Steve Jobs</cite> -->
+                    </p>
 		            </div>
-		            <div class="item">
+		            <!-- <div class="item">
 		            	<figure>
 		            		<img src="/assets/images/testimonial_person4.jpg" alt="Free HTML5 Bootstrap Template">
 		            	</figure>
 		              	<p class="text-center quote">&ldquo;I think design would be better if designers were much more skeptical about its applications. If you believe in the potency of your craft, where you choose to dole it out is not something to take lightly. &rdquo;<cite class="author">&mdash; Frank Chimero</cite></p>
-		            </div>
+		            </div> -->
 		          </div>
 				</div>
 			</div>
@@ -87,18 +89,18 @@
 			<div class="fh5co-counters" style="background-image: url(/assets/images/hero.jpg);" data-stellar-background-ratio="0.5" id="counter-animate">
 				<div class="fh5co-narrow-content animate-box">
 					<div class="row" >
-						<div class="col-md-4 text-center">
-							<span class="fh5co-counter js-counter" data-from="0" data-to="67" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="fh5co-counter-label">Client</span>
+						<div class="col-md-6 text-center">
+							<span class="fh5co-counter js-counter" data-from="0" data-to="<?= $totalVisits ?>" data-speed="5000" data-refresh-interval="50"></span>
+							<span class="fh5co-counter-label">Visits</span>
 						</div>
-						<div class="col-md-4 text-center">
-							<span class="fh5co-counter js-counter" data-from="0" data-to="130" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="fh5co-counter-label">Photos</span>
+						<div class="col-md-6 text-center">
+							<span class="fh5co-counter js-counter" data-from="0" data-to="<?= $totalTopics ?>" data-speed="5000" data-refresh-interval="50"></span>
+							<span class="fh5co-counter-label">Topics</span>
 						</div>
-						<div class="col-md-4 text-center">
+						<!-- <div class="col-md-4 text-center">
 							<span class="fh5co-counter js-counter" data-from="0" data-to="27232" data-speed="5000" data-refresh-interval="50"></span>
 							<span class="fh5co-counter-label">Pixels</span>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -112,8 +114,8 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-						<p class="fh5co-lead">Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						<p><a href="#" class="btn btn-primary btn-outline">Learn More</a></p>
+						<!-- <p class="fh5co-lead">Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> -->
+						<p><a href="/contact" class="btn btn-primary">Contact</a></p>
 					</div>
 					
 				</div>

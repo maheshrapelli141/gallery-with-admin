@@ -139,27 +139,9 @@
         <div class="row">
           <?php for ($i = 0; $i < count($images); $i++) { ?>
             <div class="column">
-              <img class="demo cursor" src="<?= $images[$i] ?>" style="width:100%" onclick="currentSlide($i+1)">
+              <img class="demo cursor" src="<?= $images[$i] ?>" style="width:100%" onclick="currentSlide(<?= $i+1 ?>)">
             </div>
           <?php } ?>
-          <!-- <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_woods.jpg" style="width:100%" onclick="currentSlide(1)" alt="The Woods">
-          </div>
-          <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_5terre.jpg" style="width:100%" onclick="currentSlide(2)" alt="Cinque Terre">
-          </div>
-          <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_mountains.jpg" style="width:100%" onclick="currentSlide(3)" alt="Mountains and fjords">
-          </div>
-          <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_lights.jpg" style="width:100%" onclick="currentSlide(4)" alt="Northern Lights">
-          </div>
-          <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_nature.jpg" style="width:100%" onclick="currentSlide(5)" alt="Nature and sunrise">
-          </div>    
-          <div class="column">
-            <img class="demo cursor" src="https://www.w3schools.com/howto/img_snow.jpg" style="width:100%" onclick="currentSlide(6)" alt="Snowy Mountains">
-          </div> -->
         </div>
       </div>
       <div class="col-sm-6">
@@ -178,8 +160,8 @@
       </div>
       <div class="row">
         <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-          <p class="fh5co-lead">Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-          <p><a href="#" class="btn btn-primary">Learn More</a></p>
+          <!-- <p class="fh5co-lead">Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> -->
+          <p><a href="/contact" class="btn btn-primary">Contact</a></p>
         </div>
 
       </div>
