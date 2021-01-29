@@ -83,7 +83,7 @@
 				<ul>
 					<li <?= ($uri->getSegment(1) == '' ? 'class="fh5co-active"' : null) ?>><a href="/">Home</a></li>
 					<!-- <li <?= ($uri->getSegment(1) == 'photos' ? 'class="fh5co-active"' : null) ?>><a href="photos">Photos</a></li> -->
-					<li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="/about">About</a></li>
+					<!-- <li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="/about">About</a></li> -->
 					<li <?= ($uri->getSegment(1) == 'contact' ? 'class="fh5co-active"' : null) ?>><a href="/contact">Contact</a></li>
 				</ul>
 			</nav>

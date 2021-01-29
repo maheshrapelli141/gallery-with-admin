@@ -34,7 +34,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/topics/(:num)', 'Home::topics/$1');
 $routes->get('/single/(:num)', 'Home::single/$1');
 $routes->get('/about', 'Home::about');
-$routes->get('/contact', 'Home::contact');
+$routes->match(['get','post'],'/contact', 'Home::contact');
 
 $routes->group('api', function($routes)
 {

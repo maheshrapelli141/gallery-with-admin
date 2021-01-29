@@ -53,25 +53,41 @@
 						<h1>Get In Touch</h1>
 					</div>
 				</div>
-				<form action="">
+				<form action="/contact" method="POST">
+        <?= csrf_field() ?> 
+        <?php if (isset($errors) && count($errors)): ?>
+            <div class="alert alert-info" role="alert">
+                <?= $errors ?>
+            </div>
+          <?php endif; ?>
+        <?php if (session()->get('msg')): ?>
+            <div class="alert alert-info" role="alert">
+                <?= session()->get('msg') ?>
+            </div>
+          <?php endif; ?>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Name">
+										<input type="text" class="form-control" placeholder="Name" name="name">
 									</div>
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Email">
+										<input type="text" class="form-control" placeholder="Email" name="email">
 									</div>
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Phone">
+										<input type="text" class="form-control" placeholder="Phone" name="phone">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+										<textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
 									</div>
+                  <?php if (isset($validation)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= $validation->listErrors() ?>
+                    </div>
+                  <?php endif; ?>
 									<div class="form-group">
 										<input type="submit" class="btn btn-primary btn-md" value="Send Message">
 									</div>
