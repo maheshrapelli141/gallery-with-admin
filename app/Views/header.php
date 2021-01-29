@@ -66,7 +66,9 @@
 	<!-- jQuery -->
 	<script src="/assets/js/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.min.js'></script>
-
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  </script>
 	</head>
 	<body>
   <?php
@@ -81,8 +83,8 @@
 				<ul>
 					<li <?= ($uri->getSegment(1) == '' ? 'class="fh5co-active"' : null) ?>><a href="/">Home</a></li>
 					<!-- <li <?= ($uri->getSegment(1) == 'photos' ? 'class="fh5co-active"' : null) ?>><a href="photos">Photos</a></li> -->
-					<li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="about">About</a></li>
-					<li <?= ($uri->getSegment(1) == 'contact' ? 'class="fh5co-active"' : null) ?>><a href="contact">Contact</a></li>
+					<li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="/about">About</a></li>
+					<li <?= ($uri->getSegment(1) == 'contact' ? 'class="fh5co-active"' : null) ?>><a href="/contact">Contact</a></li>
 				</ul>
 			</nav>
 
