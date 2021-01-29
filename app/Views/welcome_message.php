@@ -6,7 +6,10 @@
 			
 	
 			<div class="fh5co-narrow-content">
-				<h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">Services</h2>
+      <br>
+      <br>
+      <br>
+				<!-- <h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">Services</h2>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="fh5co-feature animate-box" data-animate-effect="fadeInLeft">
@@ -54,7 +57,7 @@
 						</div>
 					</div>
 
-				</div>
+				</div> -->
 			</div>
 
 

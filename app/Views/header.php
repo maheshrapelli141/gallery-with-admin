@@ -78,7 +78,10 @@
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
 		<aside id="fh5co-aside" role="complementary" class="border js-fullheight">
 
-			<h1 id="fh5co-logo"><a href=""><img src="/assets/images/logo-colored.png" alt="Free HTML5 Bootstrap Website Template"></a></h1>
+			<h2 id="fh5co-logo"><a href="">
+      <!-- <img src="/assets/images/logo-colored.png" alt="Free HTML5 Bootstrap Website Template"> -->
+      Jeet Props
+      </a></h2>
 			<nav id="fh5co-main-menu" role="navigation">
 				<ul>
 					<li <?= ($uri->getSegment(1) == '' ? 'class="fh5co-active"' : null) ?>><a href="/">Home</a></li>
