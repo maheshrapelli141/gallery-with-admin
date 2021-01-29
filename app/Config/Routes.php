@@ -52,7 +52,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes)
   $routes->get('dashboard', 'Dashboard::index');
   $routes->match(['get','post'],'category', 'Category::index');
   $routes->get('category/delete', 'Category::delete');
-  $routes->match(['get','post'],'topic', 'Topic::index');
+  $routes->get('topic', 'Topic::index');
+  $routes->post('topic', 'Topic::saveTopic');
   $routes->get('topic/delete', 'Topic::delete');
 
 });

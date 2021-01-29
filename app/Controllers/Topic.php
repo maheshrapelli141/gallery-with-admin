@@ -10,12 +10,11 @@ class Topic extends BaseController
 {
   use ResponseTrait;
 
-	public function index()
-	{
-    $data = [];
-
-    
-    if ($this->request->getMethod() == 'post') {
+  public function saveTopic(){
+    $input = service('request')->getPost();
+    $data = [
+      'csrf' => csrf_hash()
+    ];
       $rules = [
 				'name' => 'required|min_length[2]|max_length[50]',
         'description' => 'required|min_length[2]|max_length[1500]',
@@ -23,17 +22,18 @@ class Topic extends BaseController
       ];
 
       $files = $this->request->getFiles();
-
       $images = NULL;
       // Count total files
-      if(!$this->request->getVar('imageUrls') || empty($files['images']))
-        $rules['images'] = 'uploaded[images]|max_size[images,5000]|ext_in[images,jpg,jpeg,png],';
-      else $images = $this->request->getVar('imageUrls');
+      if(!$input['imageUrls'] || empty($files['images']))
+        $rules['images'] = 'uploaded[images]|max_size[images,10000]|ext_in[images,jpg,jpeg,png],';
+      else $images = $input['imageUrls'];
 
 			$errors = [];
       
       if (!$this->validate($rules, $errors)) {
-				$data['validation'] = $this->validator;
+        // $data['validation'] = $this->validator;
+        $data['errors'] = $this->validator->listErrors();
+        return $this->respond($data, 400);
 			}else{
         $fileUploads = array();
 
@@ -68,26 +68,21 @@ class Topic extends BaseController
         $model = new TopicModel();
 
         $newData = [
-          'name' => $this->request->getVar('name'),
-          'description' => $this->request->getVar('description'),
-          'categories' => implode(',',$this->request->getVar('categories')),
+          'name' => $input['name'],
+          'description' => $input['description'],
+          'categories' => implode(',',$input['categories']),
           'images' => $images
         ];
         
-        $topic_id = $this->request->getVar('topic_id');
+        $topic_id = $input['topic_id'];
 
         if($topic_id)
           $model->update($topic_id,$newData);
         else {
-          
           $model->save($newData);
           $result = ($model->getLatestTopic())[0];
           $topic_id = $result['id'];
         }
-
-        $selectedCategories = array_unique($this->request->getVar('categories'));
-        
-        $topic_categories = [];
 
         if ($db->transStatus() === FALSE)
         {
@@ -96,12 +91,20 @@ class Topic extends BaseController
         else
         {
           $db->transCommit();
-          $session = session();
-          $session->setFlashdata('success', 'Topic Saved Successfully');
+          // $session = session();
+          // $session->setFlashdata('success', 'Topic Saved Successfully');
+          $data['message'] = 'Topic Saved Successfully';
+          $data['status'] = true;
+          return $this->respond($data, 200);
         }
-      }
-      $data['errors'] = $errors;
-    }
+      }  
+    $data['errors'] = $errors;
+    return $this->respond($data, 422);
+  }
+
+	public function index()
+	{
+    $data = [];
 
     $model = new TopicModel();
     $data['topics'] = $model->getTopics();

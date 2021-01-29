@@ -8,13 +8,6 @@
                 <div class="row ">
                     <div class="col-3"></div>
                     <div class="col-6">
-
-                      <?php if (session()->get('success')): ?>
-                        <div class="alert alert-success" role="alert">
-                            <?= session()->get('success') ?>
-                        </div>
-                      <?php endif; ?>
-
                         <input type="hidden" name="topic_id">
                         <div class="form-group">
                           <label>Title</label>
@@ -50,18 +43,7 @@
                             <?php }?>
                           </select>
                         </div>
-                        <?php if (isset($validation)): ?>
-                          <div class="alert alert-danger" role="alert">
-                              <?= $validation->listErrors() ?>
-                          </div>
-                        <?php endif; ?>
-                        <?php if (isset($errors) && count($errors)): ?>
-                          <div class="alert alert-danger" role="alert">
-                            <? foreach($errors as $error){
-                              echo $error;
-                               } ?>
-                          </div>
-                        <?php endif; ?>
+                        <div id="respMessage"></div>
                           <br>
                         <button type="submit" class="btn btn-info btn-right">Save</button>
                     </div>
@@ -85,8 +67,9 @@
 <script>
 const topics = <?= json_encode($topics) ?>;
 const categories = <?= json_encode($categories) ?>;
+const uploadImagesBlobs = [];
 
-$saveTopicForm = $('#saveTopicForm');
+const $saveTopicForm = $('#saveTopicForm');
 
 let selectedTopicImages = null;
 
@@ -112,6 +95,45 @@ function renderUrlBasedImages(){
       `)
     })
 }
+
+(() => {
+  $saveTopicForm.on('submit',e=> {
+    e.preventDefault();
+    const form = $saveTopicForm[0];
+    const formData = new FormData(form);
+    
+    formData.delete('images[]');
+    uploadImagesBlobs.map(file => formData.append('images[]',file));
+    
+
+    $.ajax({
+      method: 'post',
+      url: '/admin/topic',
+      dataType:'json',
+      contentType: false,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      data: formData,
+      processData: false
+    })
+    .then(resp => {
+      console.log({resp});
+      $saveTopicForm.trigger('reset');
+      $('#uploadedImagesSection').empty();
+      $('#uploadImagesSection').empty();
+      // setTimeout(() => window.location.reload(),1500);
+      $('#respMessage').empty().append(`<div class="alert alert-info">`+ resp.message + `</div>`);
+    })
+    .catch(error => {
+      console.log({error});
+      if(error.responseJSON && error.responseJSON.errors){
+        $('#respMessage').empty().append(`<div class="alert alert-danger">`+ error.responseJSON.errors + `</div>`);
+      }
+    })
+  })
+  
+})();
 
 (() => {
   $('body').on('click','.btn-edit',e => {
@@ -150,7 +172,7 @@ function renderUrlBasedImages(){
       topicTemplate += `<tr>
           <td>${topic['id']}</td>
           <td>${topic['name']}</td>
-          <td>${topic['categories'].map(category => category.name).join(',')}</td>
+          <td>${topic['categories'].filter(category => category).map(category => category.name).join(',')}</td>
           <td style="display:flex;">
             <form action="/admin/topic/delete">
               <?= csrf_field() ?>
@@ -174,27 +196,71 @@ function renderUrlBasedImages(){
 (() => {
   $('#uploadeImages').on('change',async e => {
     const files = e.target.files;
-    const base64Promises = Object.values(files).map(toBase64);
-    // $('#uploadImagesSection').empty();
-    (await Promise.all(base64Promises)).map(base64 => {
-      $('#uploadImagesSection').append(`
-        <img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
-      `);
-    })
-  });
-  function toBase64(file) {
-    return new Promise((res,rej) => {
-      const reader = new FileReader();
+    console.log({files});
+    // watermark(Object.values(files))
+    // .blob(watermark.text.lowerRight('jeetprops.com', '48px serif', '#fff', 0.5))
+    // .then(function (blob) {
+    //   console.log({blob});
+    //   // document.getElementById('text').appendChild(blob);
+    //   const base64 = toBase64(blob);
+    //   $('#uploadImagesSection').append(`
+    //     <img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+    //   `);
+    // });
+    Object.values(files).map(file => {
+      const watermarkInst = watermark([file]);
+      const watermarkProps = watermark.text.center('jeetprops.com','28px serif', '#fff', 0.5);
+      watermarkInst
+        .dataUrl(watermarkProps)
+        .then(function (url) {
+          uploadImagesBlobs.push(dataURLtoFile(url,file.name));
+          $('#uploadImagesSection').append(`
+            <img src="${url}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+          `);
+        });
 
-      reader.addEventListener("load", function () {
-        // convert image file to base64 string
-        return res(reader.result);
-      }, false);
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
     });
+  });
+
+  function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, {type:mime});
   }
 })();
+
+// (() => {
+//   $('#uploadeImages').on('change',async e => {
+//     const files = e.target.files;
+//     const base64Promises = Object.values(files).map(toBase64);
+//     // $('#uploadImagesSection').empty();
+//     (await Promise.all(base64Promises)).map(base64 => {
+//       $('#uploadImagesSection').append(`
+//         <img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+//       `);
+//     })
+//   });
+//   function toBase64(file) {
+//     return new Promise((res,rej) => {
+//       const reader = new FileReader();
+
+//       reader.addEventListener("load", function () {
+//         // convert image file to base64 string
+//         return res(reader.result);
+//       }, false);
+
+//       if (file) {
+//         reader.readAsDataURL(file);
+//       }
+//     });
+//   }
+// })();
 </script>
