@@ -55,7 +55,7 @@
 				</div>
 				<form action="/contact" method="POST">
         <?= csrf_field() ?> 
-        <?php if (isset($errors) && count($errors)): ?>
+        <?php if (isset($errors)): ?>
             <div class="alert alert-info" role="alert">
                 <?= $errors ?>
             </div>
