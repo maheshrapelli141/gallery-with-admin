@@ -18,8 +18,9 @@
                           <textarea name="description" class="form-control" placeholder="Enter topic description"></textarea>
                         </div>
                         <div class="form-group">
-                          <label>Images</label>
-                          <input type="file" class="form-control" name="images[]" multiple id="uploadeImages">
+                          <label>Images (jpg,png,jpeg files allowed)</label>
+                          <span id="file-error"></span>
+                          <input type="file" class="form-control" name="images[]" multiple id="uploadeImages" accept="image/*">
                           <input type="hidden" name="imageUrls">
                         </div>
                         <div class="card">
@@ -27,6 +28,12 @@
                             <label>Current Selected Images</label>
                             <div id="uploadImagesSection"></div>
                           </div>
+                          <div id="watermark-status" style="display:none">
+                            <label>Applying Watermark on Images: <small>(image watermarking might take high cpu usage for large images, try to add upload upto max 10 images at once)</small></label>
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-striped progress-bar-animated" id="watermark-progress-bar" style="width:0%;height:20px;"></div>
+                            </div>
+                            </div>
                         </div><br>
                         <div class="card">
                           <div class="card-body">
@@ -45,7 +52,7 @@
                         </div>
                         <div id="respMessage"></div>
                           <br>
-                        <button type="submit" class="btn btn-info btn-right">Save</button>
+                        <button type="submit" class="btn btn-info btn-right" id="btn-save">Save</button>
                     </div>
                     <!-- <div class="col-3"></div> -->
                     
@@ -73,6 +80,7 @@ const $saveTopicForm = $('#saveTopicForm');
 
 let selectedTopicImages = null;
 
+
 function removeImageByIndex(index){
   
   selectedTopicImages = selectedTopicImages.toString().split(',')
@@ -97,42 +105,66 @@ function renderUrlBasedImages(){
 }
 
 (() => {
-  $saveTopicForm.on('submit',e=> {
-    e.preventDefault();
-    const form = $saveTopicForm[0];
-    const formData = new FormData(form);
-    
-    formData.delete('images[]');
-    uploadImagesBlobs.map(file => formData.append('images[]',file));
-    
-
-    $.ajax({
-      method: 'post',
-      url: '/admin/topic',
-      dataType:'json',
-      contentType: false,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      data: formData,
-      processData: false
-    })
-    .then(resp => {
-      console.log({resp});
-      $saveTopicForm.trigger('reset');
-      $('#uploadedImagesSection').empty();
-      $('#uploadImagesSection').empty();
-      // setTimeout(() => window.location.reload(),1500);
-      $('#respMessage').empty().append(`<div class="alert alert-info">`+ resp.message + `</div>`);
-    })
-    .catch(error => {
-      console.log({error});
-      if(error.responseJSON && error.responseJSON.errors){
-        $('#respMessage').empty().append(`<div class="alert alert-danger">`+ error.responseJSON.errors + `</div>`);
-      }
-    })
-  })
   
+
+  $saveTopicForm.validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: 1,
+        maxlength: 200
+      },
+      description: {
+        required: true,
+        minlength: 1,
+        maxlength: 1500
+      },
+      'categories[]': 'required',
+      'images[]': {
+        required: true,
+        extension: "jpg|png|jpeg"
+      }
+    },
+    submitHandler: function(){
+      const form = $saveTopicForm[0];
+      const formData = new FormData(form);
+      
+      formData.delete('images[]');
+      uploadImagesBlobs.map(file => formData.append('images[]',file));
+      
+      $('#btn-save').text('Uploading...').attr('disabled',true);
+      
+
+      $.ajax({
+        method: 'post',
+        url: '/admin/topic',
+        dataType:'json',
+        contentType: false,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        data: formData,
+        processData: false
+      })
+      .then(resp => {
+        console.log({resp});
+        $saveTopicForm.trigger('reset');
+        $('#btn-save').text('Save').attr('disabled',false);
+        $('#uploadedImagesSection').empty();
+        $('#uploadImagesSection').empty();
+        // setTimeout(() => window.location.reload(),1500);
+        $('#respMessage').empty().append(`<div class="alert alert-info">`+ resp.message + `</div>`);
+      })
+      .catch(error => {
+        console.log({error});
+        if(error.responseJSON && error.responseJSON.errors){
+          $('#respMessage').empty().append(`<div class="alert alert-danger">`+ error.responseJSON.errors + ` <br>If error not changes, try to refresh page and try again or check input files</div>`);
+        }
+        $('#btn-save').text('Save').attr('disabled',false);
+      })
+    }
+  })
+
 })();
 
 (() => {
@@ -195,32 +227,42 @@ function renderUrlBasedImages(){
 
 (() => {
   $('#uploadeImages').on('change',async e => {
-    const files = e.target.files;
-    console.log({files});
-    // watermark(Object.values(files))
-    // .blob(watermark.text.lowerRight('jeetprops.com', '48px serif', '#fff', 0.5))
-    // .then(function (blob) {
-    //   console.log({blob});
-    //   // document.getElementById('text').appendChild(blob);
-    //   const base64 = toBase64(blob);
-    //   $('#uploadImagesSection').append(`
-    //     <img src="${base64}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
-    //   `);
-    // });
-    Object.values(files).map(file => {
-      const watermarkInst = watermark([file]);
-      const watermarkProps = watermark.text.center('jeetprops.com','28px serif', '#fff', 0.5);
-      watermarkInst
-        .dataUrl(watermarkProps)
-        .then(function (url) {
-          uploadImagesBlobs.push(dataURLtoFile(url,file.name));
-          $('#uploadImagesSection').append(`
-            <img src="${url}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
-          `);
-        });
+    const files = Object.values(e.target.files);
+    
+    if(validateFileSize(files)){
+      uploadImagesBlobs.splice(0,uploadImagesBlobs.length-1);
+      $('#watermark-status').show();
+      $('#uploadImagesSection').empty();
 
-    });
+      for(let i=0;i< files.length;i++){
+        const file = files[i];
+        const percent = Math.round(((i+1)/files.length)*100);
+        $('#watermark-progress-bar').css('width',percent+'%').text('('+percent+' %)');
+        uploadImagesBlobs.push(file);
+        const watermarkInst = watermark([file]);
+        const watermarkProps = watermark.text.center('jeetprops.com','28px serif', '#fff', 0.5);
+        const watermarkedDataUrl = await watermarkInst.dataUrl(watermarkProps);
+        $('#uploadImagesSection').append(`
+          <img src="${watermarkedDataUrl}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
+        `);
+      }
+      setTimeout(() =>$('#watermark-status').hide(),1000);
+      
+    }
   });
+
+  function validateFileSize(files){
+    console.log({files});
+    let areAllOk = true;
+    $('#file-error').empty();
+    files.map(file => {
+      if(file.size > 10000000){
+        $('#file-error').append(`<p class="error">File size too large: ${file.name}</p>`);
+        areAllOk = false;
+      }
+    });
+    return areAllOk;
+  }
 
   function dataURLtoFile(dataurl, filename) {
     var arr = dataurl.split(','),

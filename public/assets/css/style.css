@@ -2,3 +2,6 @@
 .btn-right{
   float: right;
 }
+.error{
+  color: red;
+}

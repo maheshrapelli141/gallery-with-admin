@@ -45,6 +45,8 @@
 
 	<!-- Modernizr JS -->
 	<script src="/assets/js/modernizr-2.6.2.min.js"></script>
+  
+  
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -53,8 +55,11 @@
 	<!-- jQuery -->
 	<script src="/assets/js/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.min.js'></script>
+  
   <script>
+    //disable right click context menu
     document.addEventListener('contextmenu', event => event.preventDefault());
+
   </script>
 	</head>
 	<body>

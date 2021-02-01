@@ -84,19 +84,31 @@ class Home extends BaseController
         $message = $message.' Phone: '.$this->request->getVar('phone');
 
         //Web master email
-        $to_email = 'mrapelli141@gmail.com'; //Webmaster email, who receive mails
+        $to_email = 'jeetprops.com@gmail.com'; //Webmaster email, who receive mails
 
         
-        $email = \Config\Services::email();
+        // $email = \Config\Services::email();
+
+        $config = Array(
+          'protocol' => 'smtp',
+          'smtp_host' => 'ssl://smtp.googlemail.com',
+          'smtp_port' => 465,
+          'smtp_user' => 'xxx',
+          'smtp_pass' => 'xxx',
+          'mailtype'  => 'html', 
+          'charset'   => 'iso-8859-1'
+      );
+        $this->load->library('email', $config);
 
         //Send mail with data
-        $email->setFrom($from_email, $name);
-        $email->setTo($to_email);
-        $email->setSubject($subject);
-        $email->setMessage($message);
+        // $email->setFrom($from_email, $name);
+        // $email->setTo($to_email);
+        // $email->setSubject($subject);
+        // $email->setMessage($message);
+        // $email->setNewLine("\r\n");
 
         $session = session();
-        if ($email->send()) {
+        if ($this->email->send()) {
           $session->setFlashdata('msg', '<li>Mail sent!</li>');
 
           redirect('contact');

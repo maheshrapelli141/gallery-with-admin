@@ -13,7 +13,7 @@
 									<i class="icon-envelope-o"></i>
 								</div>
 								<div class="fh5co-text">
-									<p><a href="#">jeetprops.com</a></p>
+									<p><a href="mailto:jeetprops.com@gmail.com">jeetprops.com@gmail.com</a></p>
 								</div>
 							</div>
 						</div>

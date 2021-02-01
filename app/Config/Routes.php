@@ -44,7 +44,7 @@ $routes->group('api', function($routes)
 
 $routes->get('admin', 'Users::index');
 $routes->get('admin/logout', 'Users::logout');
-$routes->match(['get','post'],'admin/register', 'Users::register');
+// $routes->match(['get','post'],'admin/register', 'Users::register');
 
 $routes->group('admin', ['filter' => 'auth'], function($routes)
 {

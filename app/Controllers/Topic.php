@@ -25,7 +25,7 @@ class Topic extends BaseController
       $images = NULL;
       // Count total files
       if(!$input['imageUrls'] || empty($files['images']))
-        $rules['images'] = 'uploaded[images]|max_size[images,10000]|ext_in[images,jpg,jpeg,png],';
+        $rules['images'] = 'uploaded[images]|max_size[images,10000000]|ext_in[images,JPG,JPEG,jpg,jpeg,png],';
       else $images = $input['imageUrls'];
 
 			$errors = [];
