@@ -92,11 +92,16 @@
 			<div class="fh5co-counters" style="background-image: url(/assets/images/hero.jpg);" data-stellar-background-ratio="0.5" id="counter-animate">
 				<div class="fh5co-narrow-content animate-box">
 					<div class="row" >
-						<div class="col-md-6 text-center">
+						<div class="col-md-4 text-center">
 							<span class="fh5co-counter js-counter" data-from="0" data-to="<?= $totalVisits ?>" data-speed="5000" data-refresh-interval="50"></span>
 							<span class="fh5co-counter-label">Visits</span>
 						</div>
-						<div class="col-md-6 text-center">
+            <div class="col-md-4 text-center">
+							<span class="fh5co-counter js-counter" data-from="0" data-to="<?= $categories ?>" data-speed="5000" data-refresh-interval="50"></span>
+							<span class="fh5co-counter-label">Categories</span>
+						</div>
+            
+						<div class="col-md-4 text-center">
 							<span class="fh5co-counter js-counter" data-from="0" data-to="<?= $totalTopics ?>" data-speed="5000" data-refresh-interval="50"></span>
 							<span class="fh5co-counter-label">Topics</span>
 						</div>

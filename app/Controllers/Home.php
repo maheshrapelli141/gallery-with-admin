@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Topic;
+use App\Models\Category;
 use App\Models\Counter;
 
 class Home extends BaseController
@@ -17,7 +18,9 @@ class Home extends BaseController
     $data['totalTopics'] = $topicModel->getTotalCount();
     $counterModel = new Counter();
     $data['totalVisits'] = $counterModel->increaseCount();
-
+    $categoryModel = new Category();
+    $data['categories'] = $categoryModel->getCount();
+    
     echo view('header', $data);
     echo view('welcome_message');
     echo view('footer');

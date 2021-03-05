@@ -14,6 +14,10 @@ class Category extends Model
       return $this->findAll();
     }
 
+    function getCount(){
+      return $this->builder()->countAll();;
+    }
+
     function getById($categoryId){
       return $this->find($categoryId);
     }
