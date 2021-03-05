@@ -146,4 +146,29 @@ class Topic extends BaseController
     return $this->respond($data, 200);
     // die($categoryId);
   }
+
+  function searchTopics($keywords){
+    $keywords = explode(' ',$keywords);
+    $categoryModel = new CategoryModel();
+    $categories = $categoryModel->findCategories($keywords);
+    
+    $query = [];
+
+    foreach ($keywords as $keyword)
+    {
+        $query['name'] = $keyword;
+    }
+    foreach ($categories as $category)
+    {
+        $query['categories'] = $category->id;
+    }
+    $topicModel = new TopicModel();
+    $topics = $topicModel->searchTopics($query);
+    
+    return $this->respond([
+      'message' => 'Topics search result',
+      'status' => true,
+      'data' => $topics
+    ], 200);
+  }
 }

@@ -9,6 +9,8 @@ class Home extends BaseController
 {
   public function index()
   {
+    $this->cachePage(5000);
+
     $data  = [];
 
     $topicModel = new Topic();
@@ -23,6 +25,8 @@ class Home extends BaseController
 
   public function topics($categoryId)
   {
+    $this->cachePage(5000);
+
     $topicModel = new Topic();
     $topics = $topicModel->getByCategoryId($categoryId);
     $data  = [
@@ -37,6 +41,8 @@ class Home extends BaseController
 
   public function single($topicId)
   {
+    $this->cachePage(5000);
+
     $topicModel = new Topic();
     $topic = $topicModel->find($topicId);
     $data  = [
@@ -50,6 +56,8 @@ class Home extends BaseController
 
   public function about()
   {
+    $this->cachePage(5000);
+    
     $data  = [];
 
     echo view('header', $data);
@@ -59,6 +67,8 @@ class Home extends BaseController
 
   public function contact()
   {
+    $this->cachePage(5000);
+
     $data  = [];
 
     if($this->request->getMethod() == 'post'){
@@ -87,28 +97,28 @@ class Home extends BaseController
         $to_email = 'jeetprops.com@gmail.com'; //Webmaster email, who receive mails
 
         
-        // $email = \Config\Services::email();
+        $email = \Config\Services::email();
 
-        $config = Array(
-          'protocol' => 'smtp',
-          'smtp_host' => 'ssl://smtp.googlemail.com',
-          'smtp_port' => 465,
-          'smtp_user' => 'xxx',
-          'smtp_pass' => 'xxx',
-          'mailtype'  => 'html', 
-          'charset'   => 'iso-8859-1'
-      );
-        $this->load->library('email', $config);
+      //   $config = Array(
+      //     'protocol' => 'smtp',
+      //     'smtp_host' => 'ssl://smtp.googlemail.com',
+      //     'smtp_port' => 465,
+      //     'smtp_user' => 'xxx',
+      //     'smtp_pass' => 'xxx',
+      //     'mailtype'  => 'html', 
+      //     'charset'   => 'iso-8859-1'
+      // );
+      //   $this->load->library('email', $config);
 
         //Send mail with data
-        // $email->setFrom($from_email, $name);
-        // $email->setTo($to_email);
-        // $email->setSubject($subject);
-        // $email->setMessage($message);
-        // $email->setNewLine("\r\n");
+        $email->setFrom($from_email, $name);
+        $email->setTo($to_email);
+        $email->setSubject($subject);
+        $email->setMessage($message);
+        $email->setNewLine("\r\n");
 
         $session = session();
-        if ($this->email->send()) {
+        if ($email->send()) {
           $session->setFlashdata('msg', '<li>Mail sent!</li>');
 
           redirect('contact');

@@ -40,6 +40,7 @@ $routes->group('api', function($routes)
 {
   $routes->get('category', 'Category::getCategories');
   $routes->get('topic/(:num)', 'Topic::getByCategoryId/$1');
+  $routes->get('topic/search/(:alphanum)', 'Topic::searchTopics/$1');
 });
 
 $routes->get('admin', 'Users::index');

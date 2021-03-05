@@ -27,4 +27,17 @@ class Category extends Model
       }
       return $categories;
     }
+
+  function findCategories($keywords){
+    $builder = $this->builder();
+    $builder->orGroupStart();
+    foreach ($keywords as $keyword)
+    {
+        $keyword = trim($keyword);
+        $builder->where("`name` LIKE '%$keyword%'");
+    }
+    $builder->groupEnd();
+    $query = $builder->get();
+    return $query->getResult();
+  }
 }

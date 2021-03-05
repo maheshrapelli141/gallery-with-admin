@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\Category as CategoryModel;
 
 class Topic extends Model
 {
@@ -30,4 +31,26 @@ class Topic extends Model
       return $this->builder()->countAllResults();
     }
 
+    function searchTopics($keywords){
+      $query = $this->builder()
+      ->orLike($keywords)
+      ->get();
+
+      $topics = $query
+      ->getResultArray();
+
+      $i=0;
+      foreach($topics as $topic){
+        $catIds = explode(',',$topic['categories']);
+        $cats = [];
+        foreach($catIds as $catId){
+          $catModel = new Category();
+          $category = $catModel->getById($catId);
+          array_push($cats,$category);
+        }
+        $topics[$i]['categories'] = $cats;
+        $i++;
+      }
+      return $topics;
+    }
 }
