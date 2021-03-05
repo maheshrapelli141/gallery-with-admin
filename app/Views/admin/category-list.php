@@ -17,7 +17,7 @@
 
                         <input type="hidden" name="category_id">
                         <label>Category</label>
-                        <input type="text" class="form-control" name="category" placeholder="Enter Category">
+                        <input type="text" class="form-control" name="category" placeholder="Enter Category" autofocus>
 
                         <?php if (isset($validation)): ?>
                           <div class="alert alert-danger" role="alert">
