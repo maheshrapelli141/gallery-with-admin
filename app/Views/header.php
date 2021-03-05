@@ -46,6 +46,20 @@
 	<!-- Modernizr JS -->
 	<script src="/assets/js/modernizr-2.6.2.min.js"></script>
   
+  <!-- Core CSS file -->
+  <link rel="stylesheet" href="/assets/css/photoswipe.css"> 
+
+  <!-- Skin CSS file (styling of UI - buttons, caption, etc.)
+      In the folder of skin CSS file there are also:
+      - .png and .svg icons sprite, 
+      - preloader.gif (for browsers that do not support CSS animations) -->
+  <link rel="stylesheet" href="/assets/css/default-skin.css"> 
+
+  <!-- Core JS file -->
+  <script src="/assets/js/photoswipe.min.js"></script> 
+
+  <!-- UI JS file -->
+  <script src="/assets/js/photoswipe-ui-default.min.js"></script> 
   
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
