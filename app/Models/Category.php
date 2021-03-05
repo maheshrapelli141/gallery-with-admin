@@ -23,6 +23,13 @@ class Category extends Model
       for($i=0;$i < count($categories);$i++){
         $model = new TopicModel();
         $topics = $model->getByCategoryId($categories[$i]['id']);
+        foreach($topics as $topic){
+          $images = explode(',',$topic->images);
+          if(count($images)){
+            $categories[$i]['image'] = $images[0];
+            break;
+          }
+        }
         $categories[$i]['topics'] = count($topics);
       }
       return $categories;

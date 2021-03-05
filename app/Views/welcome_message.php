@@ -137,7 +137,7 @@
           var a = randomColor();
 
          return `<a class="gallery-item" href="topics/${category.id}">
-          <div style="background-image: linear-gradient(to right,${a}, #eee);height:200px;width: 280px">
+          <div style="background-image: ${ category.image ? `url(${category.image})` :`linear-gradient(to right,${a}, #eee)`};height:200px;width: 280px" onerror="this.onerror=null;this.style['background-image']='linear-gradient(to right,${a}, #eee)'">
             <span class="overlay">
               <h2>${category.name}</h2>
               <span>${category.topics} Topics</span>

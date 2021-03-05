@@ -14,6 +14,10 @@ class Topic extends Model
       return $this->findAll();
     }
 
+    function getFirstTopic($categoryId){
+      return $this->query('SELECT * FROM topics WHERE FIND_IN_SET('.$categoryId.',categories) LIMIT 1')->getResult();
+    }
+
     function getLatestTopic(){
       return $this->builder()
         ->orderBy('created_at','DESC')
