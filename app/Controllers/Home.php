@@ -9,7 +9,7 @@ class Home extends BaseController
 {
   public function index()
   {
-    $this->cachePage(5000);
+    // $this->cachePage(5000);
 
     $data  = [];
 
@@ -25,7 +25,7 @@ class Home extends BaseController
 
   public function topics($categoryId)
   {
-    $this->cachePage(5000);
+    // $this->cachePage(5000);
 
     $topicModel = new Topic();
     $topics = $topicModel->getByCategoryId($categoryId);
@@ -39,9 +39,18 @@ class Home extends BaseController
     echo view('footer');
   }
 
+  public function search()
+  {
+    $data = [];
+
+    echo view('header', $data);
+    echo view('search', $data);
+    echo view('footer');
+  }
+
   public function single($topicId)
   {
-    $this->cachePage(5000);
+    // $this->cachePage(5000);
 
     $topicModel = new Topic();
     $topic = $topicModel->find($topicId);
@@ -56,7 +65,7 @@ class Home extends BaseController
 
   public function about()
   {
-    $this->cachePage(5000);
+    // $this->cachePage(5000);
     
     $data  = [];
 
@@ -67,7 +76,7 @@ class Home extends BaseController
 
   public function contact()
   {
-    $this->cachePage(5000);
+    // $this->cachePage(5000);
 
     $data  = [];
 

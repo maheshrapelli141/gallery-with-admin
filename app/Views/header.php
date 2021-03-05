@@ -30,7 +30,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="/assets/css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -59,7 +59,6 @@
   <script>
     //disable right click context menu
     document.addEventListener('contextmenu', event => event.preventDefault());
-
   </script>
 	</head>
 	<body>
@@ -76,6 +75,12 @@
       </a></h2>
 			<nav id="fh5co-main-menu" role="navigation">
 				<ul>
+					<li>
+            <form action="/search" class="search-form">
+              <input type="search" id="header-search" name="q" class="header-search" placeholder="Search Topics...">
+              <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+          </li>
 					<li <?= ($uri->getSegment(1) == '' ? 'class="fh5co-active"' : null) ?>><a href="/">Home</a></li>
 					<!-- <li <?= ($uri->getSegment(1) == 'photos' ? 'class="fh5co-active"' : null) ?>><a href="photos">Photos</a></li> -->
 					<!-- <li <?= ($uri->getSegment(1) == 'about' ? 'class="fh5co-active"' : null) ?>><a href="/about">About</a></li> -->
@@ -94,3 +99,18 @@
 			</div>
 
 		</aside>
+    <script>
+    // $('#header-search').on('change',e => {
+    //   const search = $(e.currentTarget).val().trim();
+    //   if(search){
+    //     fetch(`/api/topic/search/${search.toLowerCase()}`)
+    //       .then(resp => resp.json())
+    //       .then(resp => {
+    //         console.log({resp});
+    //       })
+    //       .catch(err => {
+    //         console.log({err});
+    //       })
+    //   }
+    // });
+    </script>

@@ -32,25 +32,23 @@ class Topic extends Model
     }
 
     function searchTopics($keywords){
-      $query = $this->builder()
+      $topics = $this->builder()
       ->orLike($keywords)
-      ->get();
-
-      $topics = $query
+      ->get()
       ->getResultArray();
 
-      $i=0;
-      foreach($topics as $topic){
-        $catIds = explode(',',$topic['categories']);
-        $cats = [];
-        foreach($catIds as $catId){
-          $catModel = new Category();
-          $category = $catModel->getById($catId);
-          array_push($cats,$category);
-        }
-        $topics[$i]['categories'] = $cats;
-        $i++;
-      }
+      // $i=0;
+      // foreach($topics as $topic){
+      //   $catIds = explode(',',$topic['categories']);
+      //   $cats = [];
+      //   foreach($catIds as $catId){
+      //     $catModel = new Category();
+      //     $category = $catModel->getById($catId);
+      //     array_push($cats,$category);
+      //   }
+      //   $topics[$i]['categories'] = $cats;
+      //   $i++;
+      // }
       return $topics;
     }
 }

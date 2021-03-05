@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('/topics/(:num)', 'Home::topics/$1');
 $routes->get('/single/(:num)', 'Home::single/$1');
+$routes->get('/search', 'Home::search');
 $routes->get('/about', 'Home::about');
 $routes->match(['get','post'],'/contact', 'Home::contact');
 

@@ -1242,3 +1242,20 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 
 /*# sourceMappingURL=style.css.map */
 
+.header-search{
+  width: 90%;
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  padding: 6px;
+}
+.search-form{
+  position: relative;
+}
+.search-btn {
+  position: absolute;
+  right: 10px;
+  color: #000;
+  border: none;
+  background-color: transparent;
+}
