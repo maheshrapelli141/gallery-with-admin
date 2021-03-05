@@ -11,7 +11,7 @@
                         <input type="hidden" name="topic_id">
                         <div class="form-group">
                           <label>Title</label>
-                          <input type="text" class="form-control" name="name" placeholder="Enter Topic">
+                          <input type="text" class="form-control" name="name" placeholder="Enter Topic" autofocus>
                         </div>
                         <div class="form-group">
                           <label>Description</label>
@@ -154,6 +154,8 @@ function renderUrlBasedImages(){
         $('#uploadImagesSection').empty();
         // setTimeout(() => window.location.reload(),1500);
         $('#respMessage').empty().append(`<div class="alert alert-info">`+ resp.message + `</div>`);
+        window.location.reload();
+        // $saveTopicForm.find('input[name=name]').focus();
       })
       .catch(error => {
         console.log({error});
