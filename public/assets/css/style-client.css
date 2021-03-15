@@ -25,13 +25,13 @@ body {
 }
 
 a {
-  color: #7ac143;
+  color: #C0C0C0;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #7ac143;
+  color: #C0C0C0;
   outline: none;
 }
 
@@ -67,17 +67,17 @@ figure figcaption {
 
 ::-webkit-selection {
   color: #fff;
-  background: #7ac143;
+  background: #C0C0C0;
 }
 
 ::-moz-selection {
   color: #fff;
-  background: #7ac143;
+  background: #C0C0C0;
 }
 
 ::selection {
   color: #fff;
-  background: #7ac143;
+  background: #C0C0C0;
 }
 
 #fh5co-page {
@@ -127,6 +127,9 @@ figure figcaption {
 #fh5co-aside #fh5co-logo {
   text-align: center;
 }
+#fh5co-logo a {
+  color: #000;
+}
 #fh5co-aside #fh5co-main-menu ul {
   text-align: center;
   margin: 0;
@@ -164,7 +167,7 @@ figure figcaption {
   bottom: 7px;
   left: 10px;
   right: 10px;
-  background-color: #7ac143;
+  background-color: #C0C0C0;
   visibility: hidden;
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
@@ -236,7 +239,7 @@ figure figcaption {
 #fh5co-aside .fh5co-footer ul li a:hover, #fh5co-aside .fh5co-footer ul li a:active, #fh5co-aside .fh5co-footer ul li a:focus {
   text-decoration: none;
   outline: none;
-  color: #7ac143;
+  color: #C0C0C0;
 }
 
 #fh5co-main {
@@ -351,7 +354,7 @@ figure figcaption {
   }
 }
 .fh5co-gallery .gallery-item .overlay span {
-  color: #7ac143;
+  color: #C0C0C0;
   color: rgba(255, 255, 255, 0.7);
   font-size: 11px;
   letter-spacing: 2px;
@@ -440,7 +443,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   color: #000;
 }
 .work-pagination a:hover {
-  color: #7ac143;
+  color: #C0C0C0;
   text-decoration: none;
 }
 @media screen and (max-width: 480px) {
@@ -455,7 +458,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 
 .fh5co-testimonial {
   padding: 3em 0;
-  background: #7ac143;
+  background: #C0C0C0;
   position: relative;
 }
 @media screen and (max-width: 768px) {
@@ -535,7 +538,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 }
 
 .fh5co-heading-colored {
-  color: #7ac143;
+  color: #000;
 }
 
 .fh5co-cards {
@@ -594,7 +597,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 
 .fh5co-counter .fh5co-number {
   font-size: 100px;
-  color: #7ac143;
+  color: #C0C0C0;
   font-weight: 400;
   margin: 0;
   padding: 0;
@@ -664,12 +667,12 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   }
 }
 .fh5co-social li a:hover {
-  color: #7ac143;
+  color: #C0C0C0;
 }
 .fh5co-social li a:hover, .fh5co-social li a:active, .fh5co-social li a:focus {
   outline: none;
   text-decoration: none;
-  color: #7ac143;
+  color: #C0C0C0;
 }
 
 #map {
@@ -699,7 +702,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   margin-top: 5px;
 }
 .fh5co-feature .fh5co-icon i {
-  color: #7ac143;
+  color: #C0C0C0;
   font-size: 70px;
 }
 @media screen and (max-width: 1200px) {
@@ -708,7 +711,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   }
 }
 .fh5co-feature.fh5co-feature-sm .fh5co-icon i {
-  color: #7ac143;
+  color: #C0C0C0;
   font-size: 28px;
 }
 @media screen and (max-width: 1200px) {
@@ -923,7 +926,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 }
 .owl-theme .owl-dots .owl-dot span:hover {
   background: none;
-  border: 3px solid #7ac143;
+  border: 3px solid #C0C0C0;
 }
 
 .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
@@ -962,9 +965,9 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 }
 
 .btn-primary {
-  background: #7ac143;
+  background: #C0C0C0;
   color: #fff;
-  border: 2px solid #7ac143;
+  border: 2px solid #C0C0C0;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   background: #88c756 !important;
@@ -972,11 +975,11 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 }
 .btn-primary.btn-outline {
   background: transparent;
-  color: #7ac143;
-  border: 2px solid #7ac143;
+  color: #C0C0C0;
+  border: 2px solid #C0C0C0;
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #7ac143;
+  background: #C0C0C0;
   color: #fff;
 }
 
@@ -1086,7 +1089,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: #7ac143;
+  border-color: #C0C0C0;
 }
 
 #message {
@@ -1261,4 +1264,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   color: #000;
   border: none;
   background-color: transparent;
+}
+#designed-by{
+  color: #000;
 }

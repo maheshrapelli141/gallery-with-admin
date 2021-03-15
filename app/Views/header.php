@@ -43,6 +43,9 @@
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="/assets/css/style-client.css">
 
+  <!-- jQuery -->
+	<script src="/assets/js/jquery.min.js"></script>
+
 	<!-- Modernizr JS -->
 	<script src="/assets/js/modernizr-2.6.2.min.js"></script>
   
@@ -66,8 +69,7 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
-	<!-- jQuery -->
-	<script src="/assets/js/jquery.min.js"></script>
+	
   <script src='https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.min.js'></script>
   
   <script>
@@ -103,7 +105,7 @@
 			</nav>
 
 			<div class="fh5co-footer">
-				<p><small>&copy; 2020 Jeet Props. All Rights Reserved.</span> <span>Designed by <a href="https://shivamsolutions.com/" target="_blank">Shivam Solutions</a> </span></small></p>
+				<p><small>&copy; 2020 Jeet Props. All Rights Reserved.</span> <span>Designed by <a href="https://shivamsolutions.com/" target="_blank" id="designed-by">Shivam Solutions</a> </span></small></p>
 				<ul>
 					<li><a href="#"><i class="icon-facebook"></i></a></li>
 					<li><a href="#"><i class="icon-twitter"></i></a></li>
