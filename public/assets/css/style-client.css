@@ -280,7 +280,7 @@ figure figcaption {
 }
 .fh5co-gallery .gallery-item {
   width: 25%;
-  height: 200px;
+  height: 200px !important;
   height: auto;
   position: relative;
   overflow: hidden;
@@ -290,7 +290,7 @@ figure figcaption {
 }
 .fh5co-gallery .gallery-item img {
   position: relative;
-  max-width: 100%;
+  /* max-width: 100%; */
   object-fit: contain;
   -webkit-transform: scale(1.2);
   -moz-transform: scale(1.2);
