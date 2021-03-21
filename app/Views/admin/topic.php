@@ -240,10 +240,10 @@ function renderUrlBasedImages(){
         const file = files[i];
         const percent = Math.round(((i+1)/files.length)*100);
         $('#watermark-progress-bar').css('width',percent+'%').text('('+percent+' %)');
-        uploadImagesBlobs.push(file);
         const watermarkInst = watermark([file]);
         const watermarkProps = watermark.text.center('jeetprops.com','28px serif', '#fff', 0.5);
         const watermarkedDataUrl = await watermarkInst.dataUrl(watermarkProps);
+        uploadImagesBlobs.push(dataURItoBlob(watermarkedDataUrl));
         $('#uploadImagesSection').append(`
           <img src="${watermarkedDataUrl}" class="img-thumbnail" style="max-height:100px;max-width:100px;">
         `);
@@ -252,6 +252,33 @@ function renderUrlBasedImages(){
       
     }
   });
+
+  function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    //Old Code
+    //write the ArrayBuffer to a blob, and you're done
+    //var bb = new BlobBuilder();
+    //bb.append(ab);
+    //return bb.getBlob(mimeString);
+
+    //New Code
+    return new Blob([ab], {type: mimeString});
+
+
+}
 
   function validateFileSize(files){
     console.log({files});
